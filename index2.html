@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Educational Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+
+        .page {
+            text-align: center;
+            display: none;
+            padding: 50px;
+        }
+
+        #login-page {
+            display: block;
+        }
+
+        h1, h2 {
+            color: #2e3a87;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+        }
+
+        button {
+            padding: 15px 32px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 200px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .small-button {
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .small-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .logout-button {
+            background-color: #f44336;
+            color: white;
+            padding: 15px 32px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .logout-button:hover {
+            background-color: #e53935;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #e53935;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+        <h1>Welcome to STEM school</h1>
+        <p>Please log in to continue</p>
+        <input type="text" id="username" placeholder="Enter your username">
+        <input type="password" id="password" placeholder="Enter your password">
+        <button onclick="login()">Log In</button>
+    </div>
+
+    <!-- Main Page with Grade Selection -->
+    <div id="logged-in-page" class="page">
+        <div class="top-buttons">
+            <button class="small-button" onclick="changePassword()">Change Password</button>
+            <button class="small-button" onclick="deleteAccount()">Delete Account</button>
+        </div>
+        <h1>Welcome, <span id="user-name"></span></h1>
+        <p>Select your grade:</p>
+        <div class="button-container">
+            <button onclick="goToGrade('grade10')">Grade 10</button>
+            <button onclick="goToGrade('grade11')">Grade 11</button>
+        </div>
+        <button class="logout-button" onclick="logout()">Log Out</button>
+    </div>
+
+    <!-- Grade 10 Subjects Page -->
+    <div id="grade10-page" class="page" style="display: none;">
+        <h2>Grade 10 Subjects</h2>
+        <div class="button-container">
+            <button onclick="openSubjectPage('Biology')">Biology</button>
+            <button onclick="openSubjectPage('Chemistry')">Chemistry</button>
+            <button onclick="openSubjectPage('Physics')">Physics</button>
+            <button onclick="openSubjectPage('Math')">Math</button>
+            <button onclick="openSubjectPage('Geology')">Geology</button>
+            <button onclick="openSubjectPage('Religion')">Religion</button>
+            <button onclick="openSubjectPage('English')">English</button>
+            <button onclick="openSubjectPage('German')">German</button>
+            <button onclick="openSubjectPage('French')">French</button>
+            <button onclick="openSubjectPage('Computer Science')">Computer Science</button>
+            <button onclick="openSubjectPage('History')">History</button>
+            <button onclick="openSubjectPage('Geography')">Geography</button>
+            <button onclick="openSubjectPage('Economics')">Economics</button>
+            <button onclick="openSubjectPage('Philosophy')">Philosophy</button>
+            <button onclick="openSubjectPage('Art')">Art</button>
+        </div>
+    </div>
+
+    <!-- Grade 11 Subjects Page -->
+    <div id="grade11-page" class="page" style="display: none;">
+        <h2>Grade 11 Subjects</h2>
+        <div class="button-container">
+            <button onclick="openSubjectPage('Biology')">Biology</button>
+            <button onclick="openSubjectPage('Chemistry')">Chemistry</button>
+            <button onclick="openSubjectPage('Physics')">Physics</button>
+            <button onclick="openSubjectPage('Math')">Math</button>
+            <button onclick="openSubjectPage('Geology')">Geology</button>
+            <button onclick="openSubjectPage('Religion')">Religion</button>
+            <button onclick="openSubjectPage('English')">English</button>
+            <button onclick="openSubjectPage('German')">German</button>
+            <button onclick="openSubjectPage('French')">French</button>
+            <button onclick="openSubjectPage('Computer Science')">Computer Science</button>
+            <button onclick="openSubjectPage('Citizenship')">Citizenship</button>
+        </div>
+    </div>
+
+    <!-- Subject Details Page -->
+    <div id="subject-page" class="page" style="display: none;">
+        <h2 id="subject-name">Subject Page</h2>
+        <div class="subject-content">
+            <p>Here are the details about the subject.</p>
+        </div>
+        <button class="back-button" onclick="goBack()">Back</button>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            if (username && password) {
+                document.getElementById("user-name").textContent = username;
+                document.querySelectorAll(".page").forEach(page => page.style.display = "none");
+                document.getElementById("logged-in-page").style.display = "block";
+            } else {
+                alert("Please enter both username and password.");
+            }
+        }
+
+        function goToGrade(grade) {
+            document.querySelectorAll(".page").forEach(page => page.style.display = "none");
+            if (grade === "grade10") {
+                document.getElementById("grade10-page").style.display = "block";
+            } else if (grade === "grade11") {
+                document.getElementById("grade11-page").style.display = "block";
+            }
+        }
+
+        function openSubjectPage(subjectName) {
+            document.getElementById("subject-name").innerText = subjectName;
+            document.querySelectorAll(".page").forEach(page => page.style.display = "none");
+            document.getElementById("subject-page").style.display = "block";
+        }
+
+        function goBack() {
+            document.querySelectorAll(".page").forEach(page => page.style.display = "none");
+            document.getElementById("logged-in-page").style.display = "block";
+        }
+
+        function logout() {
+            alert("Logged out!");
+            location.reload();
+        }
+
+        function changePassword() {
+            alert("Redirecting to Change Password Page!");
+        }
+
+        function deleteAccount() {
+            alert("Account Deleted!");
+        }
+    </script>
+</body>
+</html>
